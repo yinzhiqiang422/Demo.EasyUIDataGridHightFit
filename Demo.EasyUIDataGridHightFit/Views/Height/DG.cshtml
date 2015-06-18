@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "DG";
+}
+@section Css{
+    <style>
+        body { margin: 0px; }
+        #footer { position: absolute; bottom: 0; width: 100%; height: 1px; /*footer的高度*/ background: #6cf; clear: both; }
+    </style>
+}
+<div id="header">
+    <table width="80%">
+        <tr>
+            <td>
+                <br />
+                <span></span>
+                <span></span>
+                在使用Easyui GridView时，如果要Gridview的宽度和窗口的宽度相同，只需要设置fitColumns: true即可
+    这样实现以后，如果窗口的大小调整后，gridview的宽度是不会改变的，这时就需要我们自己来我完成了。为window添加一个resize事件，在事件回调方法中让gridview改变宽度即可：
+            </td>
+            <td>
+                <br />
+                easyui
+                <br />
+            </td>
+        </tr>
+    </table>
+</div>
+<table id="dg"></table>
+@section Js{
+    <script>
+        $(function () {
+            $('#dg').datagrid({
+                url: 'datagrid_data.json',
+                columns: [[
+                    { field: 'code', title: 'Code', width: 100 },
+                    { field: 'name', title: 'Name', width: 100 },
+                    { field: 'price', title: 'Price', width: 100, align: 'right' }
+                ]],
+                title: '列表',
+                iconCls: 'icon-search',//图标
+                //height: GetFixHeight(),
+                nowrap: false,
+                striped: true,
+                border: true,
+                collapsible: false,//是否可折叠的
+                fitColumns: false,//自动大小
+                remoteSort: false,
+                idField: 'Id',//默认为Id
+                singleSelect: true,//是否单选
+                pagination: true,//分页控件
+                pageNumber: 1,
+                rownumbers: true,//行号
+                frozenColumns: [[
+                { field: 'ck', checkbox: true }
+                ]],
+                width: '100%', fit: true,
+                toolbar: '#header'
+            });
+        });
+
+        function GetFixHeight() {
+            var all = $(window).height();
+            var h = all - $("#header").height() - $("#footer").height();
+            //alert($(document).height() + "-" + $("#header").height() + "-" + $("#footer").height());
+            return h;
+        }
+        function GetFixWidth() {
+            return $(window).width();
+        }
+
+        $(window).resize(function () {
+            //setTimeout(function () {
+            //    $('#dg').datagrid('resize', {
+            //        height: GetFixHeight() - 1
+            //    });
+            //}, 600);
+        });
+    </script>
+}
